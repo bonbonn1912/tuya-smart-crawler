@@ -94,7 +94,7 @@ def get_regler_daten():
 def run_scheduler():
     while True:
         get_regler_daten()
-        time.sleep(30)
+        time.sleep(15)
 
 if __name__ == "__main__":
     run_scheduler()
