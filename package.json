@@ -1,0 +1,23 @@
+{
+  "name": "tuya-smart-crawler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonbonn1912/tuya-smart-crawler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bonbonn1912/tuya-smart-crawler/issues"
+  },
+  "homepage": "https://github.com/bonbonn1912/tuya-smart-crawler#readme",
+  "description": "",
+  "dependencies": {
+    "tuyapi": "github:codetheweb/tuyapi"
+  }
+}
