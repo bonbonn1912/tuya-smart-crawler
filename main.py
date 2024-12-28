@@ -1,9 +1,6 @@
-# Example Usage of TinyTuya
 import tinytuya
 import mysql.connector
 import time
-
-
 
 # Verbindung zur MariaDB herstellen
 def connect_to_db():
@@ -70,30 +67,33 @@ def save_regler_to_db(data, sensor_name):
         print(f"Fehler beim Extrahieren der Daten: {e}")
 
 def save_zaehler_to_db(data, sensor_name):
-        try:
-            zaehlerstand= data['dps'].get('1', None)  # T1 auslesen
-            insert_zaehler_data(sensor_name, zaehlerstand)
-        except KeyError as e:
-            print(f"Fehler beim Extrahieren der Daten: {e}")
-
-        
+    try:
+        zaehlerstand = data['dps'].get('1', None)  # Zaehlerstand auslesen
+        insert_zaehler_data(sensor_name, zaehlerstand)
+    except KeyError as e:
+        print(f"Fehler beim Extrahieren der Daten: {e}")
 
 
-def get_regler_daten():
+def get_regler_daten(run_count):
     a = tinytuya.Device('bf21619f5c6537ad93zz3j', '192.168.10.26', "!/xV$j{-DXm=v?'p", version=3.4)
     b = tinytuya.Device('bf4cef29a4753deb66xnra', '192.168.10.25', "[^/;E`VHcSIGf+fI", version=3.3)
     c = tinytuya.Device('bf884e4b13be13f8c4bdxx', '192.168.10.24', "e$OehoaU!;p8O0u6", version=3.3)
-    
-    dataA = a.status()
+
     dataB = b.status()
     dataC = c.status()
     save_regler_to_db(dataB, "Leda Kachelofen - Regler")
     save_regler_to_db(dataC, "Roth Solaranlage - Regler")
-    save_zaehler_to_db(dataA, "Hauptschalter - Stromzähler")
+
+    # Hauptschalter-Stromzähler nur alle 60 Durchläufe abfragen
+    if run_count % 60 == 0:
+        dataA = a.status()
+        save_zaehler_to_db(dataA, "Hauptschalter - Stromzähler")
 
 def run_scheduler():
+    run_count = 0
     while True:
-        get_regler_daten()
+        run_count += 1
+        get_regler_daten(run_count)
         time.sleep(15)
 
 if __name__ == "__main__":
