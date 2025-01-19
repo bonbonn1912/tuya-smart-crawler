@@ -85,7 +85,7 @@ def get_regler_daten(run_count):
     save_regler_to_db(dataC, "Roth Solaranlage - Regler")
 
     # Hauptschalter-Stromzähler nur alle 60 Durchläufe abfragen
-    if run_count % 15 == 0:
+    if run_count % 720 == 0:
         dataA = a.status()
         save_zaehler_to_db(dataA, "Hauptschalter - Stromzähler")
 
